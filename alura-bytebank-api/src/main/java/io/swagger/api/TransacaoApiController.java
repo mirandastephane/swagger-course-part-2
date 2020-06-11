@@ -53,9 +53,16 @@ public class TransacaoApiController implements TransacaoApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> alteraValorTransacao(@ApiParam(value = "",required=true) @PathVariable("codigo") Long codigo,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "valor", required = true) Double valor,@ApiParam(value = "" ,required=true) @RequestHeader(value="Authorization", required=true) String authorization) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Void> alteraValorTransacao(@ApiParam(value = "",required=true) 
+    @PathVariable("codigo") Long codigo,@NotNull @ApiParam(value = "", required = true) 
+    @Valid @RequestParam(value = "valor", required = true) Double valor,@ApiParam(value = "" ,required=true) 
+    @RequestHeader(value="Authorization", required=true) String authorization) {
+       
+    try {
+		return transacaoService.atualiza(authorization, codigo, valor);
+	} catch (Exception e) {
+		return respostasUtil.getErroInterno(respostasUtil.MENSAGEM_FALHA_AO_TENTAR_ATUALIZAR_TRANSACAO);
+	}
     }
 
     public ResponseEntity<Transacao> cadastraTransacao(@ApiParam(value = "" ,required=true) 
